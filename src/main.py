@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
+import matplotlib.ticker as ticker
 
 # Título da aplicação
 st.title("Análise Histórica da Cotação USD/BRL")
@@ -42,19 +43,26 @@ if uploaded_file is not None:
     st.pyplot(fig2)
 
     # --- GRÁFICO 3: Média Mensal ---
-    st.subheader("Média Mensal da Cotação")
-    media_mensal = df.groupby('Ano_Mes')['USD_BRL'].mean().reset_index()
-    media_mensal['Ano_Mes'] = media_mensal['Ano_Mes'].astype(str)
+    st.subheader("📅 Média Anual da Cotação")
 
-    fig3, ax3 = plt.subplots(figsize=(14, 6))
-    sns.lineplot(data=media_mensal, x='Ano_Mes', y='USD_BRL', marker='o', ax=ax3)
-    ax3.set_title('Média Mensal da Cotação do Dólar (USD/BRL)')
-    ax3.set_xlabel('Ano-Mês')
-    ax3.set_ylabel('Cotação Média')
-    ax3.tick_params(axis='x', rotation=45)
+    # Criar uma nova coluna de ano
+    df['Ano'] = df['Data'].dt.year
+
+    # Calcular média anual
+    media_anual = df.groupby('Ano')['USD_BRL'].mean().reset_index()
+
+    # Plotar gráfico com médias anuais
+    fig3, ax3 = plt.subplots(figsize=(10, 5))
+    sns.barplot(data=media_anual, x='Ano', y='USD_BRL', palette='Blues_d', ax=ax3)
+    ax3.set_title('Média Anual da Cotação do Dólar (USD/BRL)')
+    ax3.set_xlabel('Ano')
+    ax3.set_ylabel('Cotação Média (R$)')
+
+    # Melhorar visualização dos valores no eixo Y
+    import matplotlib.ticker as ticker
+    ax3.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'R${x:.2f}'))
+
     st.pyplot(fig3)
-
-    st.success("Análise concluída com sucesso!")
 
 else:
     st.info("Por favor, envie o arquivo CSV para iniciar a análise.")
