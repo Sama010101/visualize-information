@@ -71,3 +71,19 @@ No terminal, execute:
     streamlit run caminho/da/pasta/main.py
 ```
 A aplicação será aberta no seu navegador. Basta enviar o arquivo CSV para começar a visualização.
+
+---
+# 📂 Estrutura do Projeto
+
+```bash
+visualize-information/
+├── graphics/
+│   └── Evolução Temporal do Dólar # Grafico Evolução Temporal do Dólar
+│   └── Distribuição da Cotação do Dólar # Grafico Distribuição da Cotação do Dólar
+│   └── Média Anual da Cotação # Grafico Média Anual da Cotação
+├── src/
+│   └── main.py           # Código principal
+├── USD_BRL_hist.csv      # (opcional) Exemplo de arquivo de cotação
+├── requirements.txt      # Lista de dependências
+└── README.md             # Este documento
+```
